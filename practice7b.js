@@ -5,24 +5,20 @@ class PointCalculator {
   }
 
   addResults(name, point) {
-    this.#results.push(this.toJSON(name, point));
+    this.#results.push(this.createJSON(name, point));
   }
 
   sumPoint() {
-    let sumPoint = 0;
-    this.#results.forEach(value => {
-      sumPoint += value.point;
+    let sum = 0;
+    this.#results.reduce( value => {
+      sum += value.point;
     });
-    return sumPoint;
+    return sum;
   }
 
   avePoint() {
-    let sumPoint = 0;
     let avePoint = 0;
-    this.#results.forEach(value => {
-      sumPoint += value.point;
-    });
-    avePoint =  sumPoint / this.#results.length;
+    avePoint =  this.sumPoint() / this.#results.length;
     return avePoint;
   }
 
@@ -38,8 +34,7 @@ class PointCalculator {
     return name;
   }
 
-  // JSON.stringifyする時に下記のJSONが使われます
-  toJSON(name, point) {
+  createJSON(name, point) {
     return { name: name, point: point };
   }
 }

@@ -5,7 +5,7 @@ class Counter {
     this.#value = 0;
   }
 
-  addValue(){
+  upValue(){
     this.#value += 1;
   }
 
@@ -15,7 +15,7 @@ class Counter {
 }
 
 let counter = new Counter; // 数値をカウントアップするクラス
-counter.addValue(); //ここでcounterの値を一つ増やしたい
+counter.upValue(); //ここでcounterの値を一つ増やしたい
 console.log(counter.getValue());
-counter.addValue(); //ここでcounterの値を一つ増やしたい
+counter.upValue(); //ここでcounterの値を一つ増やしたい
 console.log(counter.getValue());
