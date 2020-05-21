@@ -85,7 +85,7 @@ class RentalBookshelf extends Bookshelf {
   // 指定の本を借りる
   rentalBook(book) {
     if(this.findBookByTitle(book) !== null) {
-      this.rentedBooks.push(this.findBookByTitle(book).getTitle());
+      this.rentedBooks.push(this.findBookByTitle(book));
       return `${this.findBookByTitle(book).getTitle()}を借りました`;
     } else {
       return `${book}は見つかりませんでした`;
@@ -108,9 +108,10 @@ class RentalBookshelf extends Bookshelf {
 
   // 指定の本が貸出中か調べる。貸出中なら真。さもなくば疑。
   isRented(book) {
-    if(this.findBookByTitle(book) !== null) {
-      return 'true';
-    } else {return 'false'}
+    for(let i = 0; i < this.rentedBooks.length; i++) {
+      if (this.rentedBooks[i].getTitle() === book) return 'true';
+    }
+    return 'false';
   }
 }
 
