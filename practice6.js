@@ -52,9 +52,6 @@ class Bookshelf {
   }
 
   addBook(book) {
-    // 自分自身（this）のcanAddBookメソッドを呼び出す
-    if (!this.canAddBook(book)) return false;
-
     this.books.push(book);
     return true;
   }
@@ -77,25 +74,7 @@ class Bookshelf {
   size() {
     return this.books.length;
   }
-
-  // 今この本を追加できますか？」というチェックを行えるメソッド
-  canAddBook(book) {
-    return true; // デフォルトでは何も制限を行わないのでどんな時も本を追加できる
-  }
 }
-
-// // 格納できる本の数が指定できる本棚クラス
-// class LimitedBookshelf extends Bookshelf {
-//   constructor(maxSize = 3) {
-//     super(); // 親のconstructorを呼びます
-//     this.maxSize = maxSize;
-//   }
-
-//   // 親クラスが作っているメソッドを上書き（オーバーライド）できます。
-//   canAddBook(book) {
-//     return this.books.length < this.maxSize;
-//   }
-// }
 
 class RentalBookshelf extends Bookshelf {
   constructor() {
@@ -104,34 +83,34 @@ class RentalBookshelf extends Bookshelf {
   }
 
   // 指定の本を借りる
-  rentalBook(title) {
-    if(books.some(b => b.title === title)) {
-      this.rentedBooks.push(title);
-    console.log(`${title}を借りました`);
-    return true;
+  rentalBook(book) {
+    if(this.findBookByTitle(book) !== null) {
+      this.rentedBooks.push(this.findBookByTitle(book).getTitle());
+      return `${this.findBookByTitle(book).getTitle()}を借りました`;
     } else {
-      console.log(`${title}は見つかりませんでした`);
+      return `${book}は見つかりませんでした`;
     }
   }
 
   // 指定の本を返す
-  returnBook(title) {
-    if(this.rentedBooks.includes(title)) {
-      this.rentedBooks = this.rentedBooks.filter(x => x !== title);
-      console.log(`${title}を返しました`);
-    } else {console.log(`${title}は借りていません`);}
+  returnBook(book) {
+    if(this.findBookByTitle(book) !== null) {
+      this.rentedBooks = this.rentedBooks
+      .filter(x => x !== this.findBookByTitle(book).getTitle());
+      return `${this.findBookByTitle(book).getTitle()}を返しました`;
+    } else {return `${book}は借りていません`}
   }
 
   // 貸し出されている本の一覧を取得する
   listRentedBooks() {
-    console.log(this.rentedBooks);
+    return this.rentedBooks;
   }
 
   // 指定の本が貸出中か調べる。貸出中なら真。さもなくば疑。
-  isRented(title) {
-    if(this.rentedBooks.includes(title)) {
-      console.log(`${title}は貸出中です`);
-    } else {console.log(`${title}は借りられます`);}
+  isRented(book) {
+    if(this.findBookByTitle(book) !== null) {
+      return 'true';
+    } else {return 'false'}
   }
 }
 
@@ -146,13 +125,14 @@ let books = [
 
 let bookshelf = RentalBookshelf.valueOf(books);
 
-bookshelf.rentalBook("x");
-bookshelf.rentalBook("a");
-bookshelf.rentalBook("z");
-bookshelf.listRentedBooks();
-bookshelf.isRented("x");
-bookshelf.isRented("y");
-bookshelf.returnBook("x");
-bookshelf.returnBook("y");
-bookshelf.isRented("x");
-bookshelf.listRentedBooks();
+console.log(bookshelf.rentalBook("x"));
+console.log(bookshelf.rentalBook("a"));
+console.log(bookshelf.rentalBook("z"));
+
+console.log(bookshelf.listRentedBooks());
+console.log(bookshelf.isRented("x"));
+console.log(bookshelf.isRented("y"));
+console.log(bookshelf.returnBook("x"));
+console.log(bookshelf.returnBook("y"));
+console.log(bookshelf.isRented("x"));
+console.log(bookshelf.listRentedBooks());
