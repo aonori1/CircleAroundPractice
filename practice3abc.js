@@ -136,4 +136,4 @@ console.log(bookshelf.findBookByTitle("y"));
 console.log(bookshelf.findBookByTitle("z"));
 console.log(bookshelf.size());
 console.log(bookshelf.sumPageSize());
-console.log(bookshelf.getLimitedCount())
+console.log(bookshelf.getLimitedCount());
