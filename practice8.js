@@ -84,7 +84,55 @@ class LimitedBookshelf extends Bookshelf {
   // 10行程度でほぼ同じ機能を持ちながら、少し動きの違う仕組みを導入できました。
 }
 
-let bookshelf = new LimitedBookshelf;
+
+class DebugBookshelf extends LimitedBookshelf {
+  addBook(book) {
+    if (!this.canAddBook(book)) {
+      console.debug(`addBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`)
+      console.debug(`addBook(${false})`)
+      return false
+    };
+    console.debug(`addBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`);
+    console.debug(`addBook(${super.addBook(book)})`)
+    return super.addBook(book);
+  }
+  findBookByTitle(title) {
+    for(let i = 0; i < this.books.length; i++) {
+      if (this.books[i].getTitle() === title) {
+        console.debug(`findBookByTitle(${title})`);
+        console.debug(`findBookByTitle(${super.findBookByTitle(title)})`)
+        return super.findBookByTitle(title);
+      }
+    }
+    console.debug(null)
+    return null;
+  }
+  sumPageSize() {
+    let size = 0
+    for(let i = 0; i < this.books.length; i++) {
+      size += this.books[i].getPageSize();
+    }
+    return size;
+  }
+  size() {
+    return this.books.length;
+  }
+  canAddBook(book) {
+    console.debug(`canAddBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`);
+    console.debug(true)
+    return true;
+  }
+}
+
+function debugBookShelf() {
+  if(process.env.NODE_ENV == 'development') {
+    return new DebugBookshelf; // 開発中はデバッグ用のログが出るクラスをインスタンス化
+  } else {
+    return new LimitedBookshelf; // 本番稼働中はログが出ないクラスをインスタンス化
+  }
+}
+
+bookshelf = debugBookShelf();
 
 bookshelf.addBook(new Book("坊ちゃん", 520));
 bookshelf.addBook(new Book("我輩は猫である", 454));
@@ -96,3 +144,9 @@ if (!bookshelf.addBook(new Book("門", 345))) {
 
 console.log(bookshelf.findBookByTitle("こころ"));
 console.log(bookshelf.sumPageSize());
+
+
+// - code3-2 の内容に以下のような修正を追加しましょう。
+//     - 環境変数に何も渡されない場合には、元の3-2のままの動作
+//     - 環境変数 `NODE_ENV`=`development`が渡された場合には、以下のように特殊なログを出す`Bookshelf`である`DebugBookshelf`が動作する。
+//         - addBook、canAddBook、findBookByTitle が呼び出された場合には `console.debug` で引数と戻り値が表示される。
