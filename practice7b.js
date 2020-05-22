@@ -8,12 +8,20 @@ class PointCalculator {
     this.#results.push(this.createJSON(name, point));
   }
 
+  // sumPoint() {
+  //   let sum = 0;
+  //   this.#results.reduce( value => {
+  //     sum += value.point;
+  //   });
+  //   return sum;
+  // }
+
   sumPoint() {
-    let sum = 0;
-    this.#results.reduce( value => {
-      sum += value.point;
+    let sumPoint = 0;
+    this.#results.forEach(value => {
+      sumPoint += value.point;
     });
-    return sum;
+    return sumPoint;
   }
 
   avePoint() {
