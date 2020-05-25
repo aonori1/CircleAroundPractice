@@ -144,9 +144,3 @@ if (!bookshelf.addBook(new Book("門", 345))) {
 
 console.log(bookshelf.findBookByTitle("こころ"));
 console.log(bookshelf.sumPageSize());
-
-
-// - code3-2 の内容に以下のような修正を追加しましょう。
-//     - 環境変数に何も渡されない場合には、元の3-2のままの動作
-//     - 環境変数 `NODE_ENV`=`development`が渡された場合には、以下のように特殊なログを出す`Bookshelf`である`DebugBookshelf`が動作する。
-//         - addBook、canAddBook、findBookByTitle が呼び出された場合には `console.debug` で引数と戻り値が表示される。

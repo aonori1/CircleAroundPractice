@@ -1,8 +1,3 @@
-// - 街頭にあるジュースの自動販売機のような概念をクラスにしましょう。
-//     - 商品（Item）を複数入れる事ができます。
-//         - ex. 商品名: コカコーラ、価格120円 のような商品名と価格があるのがItemの要素です。
-//         - 同じ商品名で値段が違うことは無いものとします。
-
 class Item {
   constructor(name, price) {
     this.name = name;
@@ -23,14 +18,6 @@ class Item {
   }
 }
 
-//     - 販売機（VendingMachine）には以下の機能があります。
-//         - 商品の補充（コーラ3本、オレンジ2本など、補充できます）
-//         - 商品の購入
-//             - 以下のように buy メソッドで商品を一つ購入できます。
-//             - buy(productName, cash) - 戻り値は購入された Item です。
-//             - 今はお釣りの概念は無いものとします。cashが商品の価格以上であれば買えます。
-//         - 商品の在庫確認（今その商品が買えるのかのチェック）
-//             - canBuy(productName): boolean
 //         - 異常系
 //             - 商品の購入時、cachがItemの価格を下回る場合には例外を投げてください。
 //             - 商品の購入時、在庫が0件であれば例外を投げてください。
@@ -58,12 +45,13 @@ class VendingMachine {
   }
 
   buy(productName, cash) {
-    console.log(`${productName} ${cash}`);
-    if (this.canBuy(productName) !== false) {
+    if (this.canBuy(productName)) {
       for(let i = 0; i < this.items.length; i++) {
         if (this.items[i].getName() === productName && this.items[i].getPrice() <= cash ) {
-          this.canBuy(productName).stock -= 1;
-          return `${this.items[i].getName()}を買いました`;
+          for(let i = 0; i < this.stocks.length; i++) {
+            this.stocks[i].stock -= 1;
+            return `${this.items[i].getName()}を買いました`;
+          }
         } else if(this.items[i].getName() === productName && this.items[i].getPrice() > cash) {
           return `お金が${this.items[i].getPrice()-cash}円足りません`;
         }
@@ -75,7 +63,7 @@ class VendingMachine {
 
   canBuy(productName) {
     for(let i = 0; i < this.stocks.length; i++) {
-      if (this.stocks[i].name === productName && this.stocks[i].stock !== 0 ) return this.stocks[i];
+      if (this.stocks[i].name === productName && this.stocks[i].stock !== 0 ) return true;
     }
     return false;
   }
