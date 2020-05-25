@@ -44,43 +44,42 @@ class VendingMachine {
     this.items.push(item);
     return item.getName();
   }
+
   addStock(name, stock) {
-    // 全部回すのはまずい
-    this.stocks.map(x => {
-      if(x.name === name) {
-        x.stock += stock;
-        return `${x.name}を${stock}本追加しました`;
+    for(let i = 0; i < this.stocks.length; i++) {
+      if (this.stocks[i].name === name) {
+        this.stocks[i].stock += stock;
+        return `${this.stocks[i].name}を${stock}本追加しました`;
+      } else {
+        this.stocks.push(this.createJSON(name, stock));
+        return `${name}を新しく${stock}本追加しました`;
       }
-      return;
-    })
-    this.stocks.push(this.createJSON(name, stock));
-    return `${name}を新しく${stock}本追加しました`;
-  }
-  buy(productName, cash) {
-    console.log(`${productName} ${cash}`);
-    if (this.canBuy(productName)) {
-      // 全部回すのはまずい
-      this.items.map(x =>{
-        if(x.getName() === productName && x.getPrice() <= cash) {
-          i.stock -= 1;
-          return `${x.getName()}を買いました`;
-        } else if(x.getName() === productName && x.getPrice() > cash) {
-          return `お金が${x.getPrice()-cash}円足りません`;
-        }
-      })
-    } else {
-        return `${productName}は在庫切れです`;
     }
   }
-  // 全部回すのはまずい
-  canBuy(productName) {
-    this.stocks.map(x => {
-      if(x.name === productName && x.stock !== 0) {
-        return true;
+
+  buy(productName, cash) {
+    console.log(`${productName} ${cash}`);
+    if (this.canBuy(productName) !== false) {
+      for(let i = 0; i < this.items.length; i++) {
+        if (this.items[i].getName() === productName && this.items[i].getPrice() <= cash ) {
+          this.canBuy(productName).stock -= 1;
+          return `${this.items[i].getName()}を買いました`;
+        } else if(this.items[i].getName() === productName && this.items[i].getPrice() > cash) {
+          return `お金が${this.items[i].getPrice()-cash}円足りません`;
+        }
       }
-      return false;
-    })
+    } else {
+      return `${productName}は在庫切れです`;
+    }
   }
+
+  canBuy(productName) {
+    for(let i = 0; i < this.stocks.length; i++) {
+      if (this.stocks[i].name === productName && this.stocks[i].stock !== 0 ) return this.stocks[i];
+    }
+    return false;
+  }
+
   createJSON(name, stock) {
     return {name: name, stock: stock};
   }
@@ -99,7 +98,6 @@ console.log(vendingMachine.addStock("オレンジジュース", 1));
 console.log(vendingMachine.addStock("オレンジジュース", 1));
 console.log(vendingMachine.addStock("リンゴジュース", 1));
 
-console.log(vendingMachine.buy("コーラ", 200));
 console.log(vendingMachine.buy("コーラ", 200));
 console.log(vendingMachine.buy("コーラ", 100));
 console.log(vendingMachine.buy("リンゴジュース", 200));
