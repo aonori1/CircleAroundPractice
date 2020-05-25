@@ -87,40 +87,18 @@ class LimitedBookshelf extends Bookshelf {
 
 class DebugBookshelf extends LimitedBookshelf {
   addBook(book) {
-    if (!this.canAddBook(book)) {
-      console.debug(`addBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`)
-      console.debug(`addBook(${false})`)
-      return false
-    };
     console.debug(`addBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`);
     console.debug(`addBook(${super.addBook(book)})`)
-    return super.addBook(book);
   }
   findBookByTitle(title) {
-    for(let i = 0; i < this.books.length; i++) {
-      if (this.books[i].getTitle() === title) {
-        console.debug(`findBookByTitle(${title})`);
-        console.debug(`findBookByTitle(${super.findBookByTitle(title)})`)
-        return super.findBookByTitle(title);
-      }
-    }
-    console.debug(null)
-    return null;
-  }
-  sumPageSize() {
-    let size = 0
-    for(let i = 0; i < this.books.length; i++) {
-      size += this.books[i].getPageSize();
-    }
-    return size;
-  }
-  size() {
-    return this.books.length;
+    console.debug(`findBookByTitle(${title})`);
+    console.debug(`findBookByTitle(${super.findBookByTitle(title)})`)
+    return super.findBookByTitle(title);
   }
   canAddBook(book) {
     console.debug(`canAddBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`);
-    console.debug(true)
-    return true;
+    console.debug(super.canAddBook(book))
+    return super.canAddBook(book);
   }
 }
 
