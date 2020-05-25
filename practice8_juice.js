@@ -84,9 +84,9 @@ class DebugVendingMachine extends VendingMachine {
 
   buy(productName, cash) {
     let buy = super.buy(productName, cash);
-    if(buy) {
+    if(buy === true) {
       console.debug(`buy(productName:${productName} , cash:${cash})`);
-      console.debug(true);
+      console.debug(`買えました:${buy}`);
     } else if(buy === null) {
       console.debug(`${productName}は在庫切れです`);
     } else {
@@ -97,7 +97,7 @@ class DebugVendingMachine extends VendingMachine {
   canBuy(productName) {
     let canBuy = super.canBuy(productName);
     console.debug(`canBuy(${productName})`);
-    console.debug(canBuy);
+    console.debug(`canBuy(productName):${canBuy}`);
     return canBuy;
   }
 }
