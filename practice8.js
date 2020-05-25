@@ -87,18 +87,22 @@ class LimitedBookshelf extends Bookshelf {
 
 class DebugBookshelf extends LimitedBookshelf {
   addBook(book) {
+    let addBook = super.addBook(book);
     console.debug(`addBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`);
-    console.debug(`addBook(${super.addBook(book)})`)
+    console.debug(`addBook(${addBook})`)
+    return addBook;
   }
   findBookByTitle(title) {
+    let findBookByTitle = super.findBookByTitle(title);
     console.debug(`findBookByTitle(${title})`);
-    console.debug(`findBookByTitle(${super.findBookByTitle(title)})`)
-    return super.findBookByTitle(title);
+    console.debug(`findBookByTitle(${findBookByTitle})`)
+    return findBookByTitle;
   }
   canAddBook(book) {
+    let canAddBook = super.canAddBook(book);
     console.debug(`canAddBook(title:${book.getTitle()}, pageSize:${book.getPageSize()})`);
-    console.debug(super.canAddBook(book))
-    return super.canAddBook(book);
+    console.debug(canAddBook)
+    return canAddBook;
   }
 }
 
