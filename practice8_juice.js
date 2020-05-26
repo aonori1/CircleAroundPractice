@@ -30,41 +30,56 @@ class VendingMachine {
   }
 
   addStock(name, stock) {
-    for(let i = 0; i < this.stocks.length; i++) {
-      if (this.stocks[i].name === name) {
-        this.stocks[i].stock += stock;
-        return true;
-      }
+    let itemByName = this.findItemByProductName(name);
+    if(itemByName.getName() !== name) {
+      return false;
+    }
+
+    let stockByName = this.findStockByProductName(name);
+    if (stockByName.name === name) {
+      stockByName.stock += stock;
+      return true;
     }
     this.stocks.push(this.createJSON(name, stock));
     return true;
   }
 
   buy(productName, cash) {
-    if (this.canBuy(productName)) {
-      for(let i = 0; i < this.items.length; i++) {
-        if (this.items[i].getName() === productName && this.items[i].getPrice() <= cash ) {
-          for(let s = 0; s < this.stocks.length; s++) {
-            if(this.stocks[s].name === productName) {
-              this.stocks[s].stock -= 1;
-              return true;
-            }
-          }
-        } else if(this.items[i].getName() === productName && this.items[i].getPrice() > cash) {
-          let shortage = this.items[i].getPrice()-cash;
-          return shortage;
-        }
+    if (!this.canBuy(productName)) { return null; }
+
+    let itemByProductName = this.findItemByProductName(productName);
+    let stockByProductName = this.findStockByProductName(productName);
+    if (itemByProductName.getName() === productName && itemByProductName.getPrice() <= cash ) {
+      if(stockByProductName.name === productName) {
+        stockByProductName.stock -= 1;
+        return true;
       }
-    } else {
-      return null;
+    } else if(itemByProductName.getName() === productName && itemByProductName.getPrice() > cash) {
+      let shortage = itemByProductName.getPrice()-cash;
+      return shortage;
     }
   }
 
   canBuy(productName) {
-    for(let i = 0; i < this.stocks.length; i++) {
-      if (this.stocks[i].name === productName && this.stocks[i].stock !== 0 ) return true;
+    let stockByProductName = this.findStockByProductName(productName);
+    if (stockByProductName.name === productName && stockByProductName.stock !== 0 ) {
+      return true;
     }
     return false;
+  }
+
+  findItemByProductName(productName) {
+    let itemName = this.items.find( item => {
+      return item.getName() === productName;
+    })
+    return itemName || '見つかりませんでした';
+  }
+
+  findStockByProductName(productName) {
+    let stockName = this.stocks.find( stock => {
+      return stock.name === productName;
+    })
+    return stockName || '見つかりませんでした';
   }
 
   createJSON(name, stock) {
@@ -122,6 +137,9 @@ vendingMachine.addStock("ソーダ", 10);
 vendingMachine.addStock("オレンジジュース", 1);
 vendingMachine.addStock("オレンジジュース", 1);
 vendingMachine.addStock("リンゴジュース", 1);
+
+console.log(vendingMachine.findItemByProductName("コーラ"))
+console.log(vendingMachine.findStockByProductName("お茶"))
 
 vendingMachine.buy("コーラ", 200);
 vendingMachine.buy("コーラ", 100);
