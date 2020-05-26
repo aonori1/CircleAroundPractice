@@ -41,22 +41,42 @@ class VendingMachine {
   }
 
   buy(productName, cash) {
-    if (this.canBuy(productName)) {
-      for(let i = 0; i < this.items.length; i++) {
-        if (this.items[i].getName() === productName && this.items[i].getPrice() <= cash ) {
-          for(let s = 0; s < this.stocks.length; s++) {
-            if(this.stocks[s].name === productName) {
-              this.stocks[s].stock -= 1;
-              return true;
-            }
+    // 講義中のメモ
+    // throw new Error('だめよ')
+
+
+    // if(!this.canBuy(productName)) {
+    //   return null;
+    // }
+
+    // let item = this.items.find( 
+    //   item => { 
+    //     return item.getName() === productName
+    //   }
+    // )
+
+    // if(item.getPrice() === cash) {
+
+    // }
+
+    // if(this.stocks[s].name === productName) {
+    //   this.stocks[s].stock -= 1;
+    //   return true;
+    // }
+
+
+    for(let i = 0; i < this.items.length; i++) {
+      if (this.items[i].getName() === productName && this.items[i].getPrice() <= cash ) {
+        for(let s = 0; s < this.stocks.length; s++) {
+          if(this.stocks[s].name === productName) {
+            this.stocks[s].stock -= 1;
+            return true;
           }
-        } else if(this.items[i].getName() === productName && this.items[i].getPrice() > cash) {
-          let shortage = this.items[i].getPrice()-cash;
-          return shortage;
         }
+      } else if(this.items[i].getName() === productName && this.items[i].getPrice() > cash) {
+        let shortage = this.items[i].getPrice()-cash;
+        return shortage;
       }
-    } else {
-      return null;
     }
   }
 
@@ -112,18 +132,39 @@ function debugVendingMachine() {
 
 vendingMachine = debugVendingMachine();
 
-vendingMachine.addItem(new Item("コーラ", 120));
-vendingMachine.addItem(new Item("ソーダ", 130));
+// 講義中のメモ
+
+// [0][0][0][0][0][0][0][0][0][0][0][0][0]
+// [0][0][0][0][0][0][0][0][0][0][0][0][0]
+// [0][0][0][0][1:120][1][1][1][1][1][0][0][0]
+// [0][0][0][0][0][0][0][0][0][0][0][0][0]
+// [0][0][0][0][0][0][0][0][0][0][0][0][0]
+// [0][0][0][0][0][0][0][0][0][0][0][0][0]
+
+// 参照
+let colaitem = new Item("コーラ", 120);
+vendingMachine.addItem(colaitem);
+vendingMachine.addItem(new Item("ソーダ", 130, 100));
 vendingMachine.addItem(new Item("オレンジジュース", 140));
+vendingMachine.addItem(new Item("オレンジジュース", 160));
 vendingMachine.addItem(new Item("リンゴジュース", 150));
 
-vendingMachine.addStock("コーラ", 10);
+let colaitem2 = new Item("コーラ", 120);
+if(colaitem === colaitem2) { console.log('一致しない') }
+
+vendingMachine.addStock(colaitem, 10);
 vendingMachine.addStock("ソーダ", 10);
 vendingMachine.addStock("オレンジジュース", 1);
 vendingMachine.addStock("オレンジジュース", 1);
 vendingMachine.addStock("リンゴジュース", 1);
 
-vendingMachine.buy("コーラ", 200);
+try {
+  vendingMachine.buy("コーラ", 200);
+  console.log('ここにはこない');
+} catch(e) {
+  console.log('例外がでてOK');
+}
+
 vendingMachine.buy("コーラ", 100);
 vendingMachine.buy("リンゴジュース", 200);
 vendingMachine.buy("リンゴジュース", 150);
