@@ -1,8 +1,41 @@
 # 専門用語やデザインパターンの説明集
 ## デザインパターン
-- Decorator - 実はもう知っている - LimitedBookshelfDecorator
-- TemplateMethod - 実はもう知っている - Bookshelfの継承での拡張
-- Factory - 概念はわかっていると思う - Bookshelf.valueOf
+1. Decorator - 実はもう知っている - LimitedBookshelfDecorator
+- 利点
+- 適用に適したシーン
+- サンプルコード
+2. TemplateMethod - 実はもう知っている - Bookshelfの継承での拡張
+- 利点
+- 適用に適したシーン
+- サンプルコード
+3. Factory - 概念はわかっていると思う - Bookshelf.valueOf
+- 利点
+- 適用に適したシーン
+- サンプルコード
+4. Singleton
+- 利点
+- 適用に適したシーン
+- サンプルコード
+5. State
+- 利点
+- 適用に適したシーン
+- サンプルコード
+6. Storategy
+- 利点
+- 適用に適したシーン
+- サンプルコード
+7. Adapter
+- 利点
+- 適用に適したシーン
+- サンプルコード
+8. Facade
+- 利点
+- 適用に適したシーン
+- サンプルコード
+9. Composite
+- 利点
+- 適用に適したシーン
+- サンプルコード
 
 
 ## 専門用語
