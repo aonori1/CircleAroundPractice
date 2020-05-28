@@ -30,6 +30,8 @@ function numberHolderFactory(type) {
   let numberHolder = new NumberHolder();
   if(type === 'ダブル') {
     return new DoubleNumberHolder(numberHolder);
+  } else if(type === 'ハーフ') {
+    return new Divide2NumberHodler(numberHolder);
   }
   return numberHolder; // typeがダブルでなければ通常オブジェクト
 }
@@ -43,3 +45,15 @@ showAnswer(numberHolder);
 //////////////////////////////////////////////////////////////
 // Q1. デコレータの時に作った Divide2NumberHodler も numberHolderFactoryで作成できるようにしましょう。
 // 「ハーフ」の文字列を渡すと Divide2NumberHodler でデコレートされる実装にします。
+class Divide2NumberHodler {
+  constructor(numberHolder) {
+    this.numberHolder = numberHolder;
+  }
+
+  getNumber() {
+    return this.numberHolder.getNumber() / 2;
+  }
+}
+
+numberHolder = numberHolderFactory('ハーフ');
+showAnswer(numberHolder);
