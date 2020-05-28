@@ -21,7 +21,7 @@ class OtogiWriter {
   }
 }
 
-class MomotaroTextWriter extends OtogiWriter {  
+class MomotaroTextWriter extends OtogiWriter {
   writeContent () {
     // 親クラスで足らなかったところを実装しています。
     console.log("桃太郎は犬猿きじと鬼ヶ島へ行き、鬼を退治しました。")
@@ -43,14 +43,31 @@ momotaro.write();
 // Q1. 桃太郎と同じように金太郎の話を作りましょう。
 // 金太郎は 2行目に「金太郎は熊にまたがりお馬の稽古をしました。」と出力します。
 // 1行目と3行目は元の動作です。
+class KintaroTextWriter extends OtogiWriter {
+  writeContent() {
+    console.log("金太郎は熊にまたがりお馬の稽古をしました。");
+  }
+}
 
+let kintaro =  new KintaroTextWriter;
+kintaro.write();
 
 //////////////////////////////////////////////////////////////
 // Q2. 桃太郎と同じように浦島太郎の話を作りましょう。
 // 1行目に「昔々、浦島太郎という若者がいました。」と出力します。
 // 2行目に「金太郎は熊にまたがりお馬の稽古をしました。」と出力します。
 // 3行目は元の動作です。
+class UrashimaTextWriter extends OtogiWriter {
+  preProcess() {
+    console.log("昔々、浦島太郎という若者がいました。");
+  }
+  writeContent() {
+    console.log("金太郎は熊にまたがりお馬の稽古をしました。");
+  }
+}
 
+let urashima = new UrashimaTextWriter;
+urashima.write();
 
 
 

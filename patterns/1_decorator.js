@@ -62,7 +62,7 @@ class AddNumberHolder {
 
 // Q2 の確認コードをここから
 // コンストラクタで元のnumberHolderと一緒に3を渡してください。
-// showAnswer したら 5 が戻ってくるはずです。
+// showAnswer したら 7 が戻ってくるはずです。
 let addNumberHolder = new AddNumberHolder(numberHolder, 3);
 showAnswer(addNumberHolder);
 
