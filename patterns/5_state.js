@@ -16,6 +16,11 @@ class Calclator {
     this.#status = new AddStatus(this);
   }
 
+  modeSubtract() {
+    console.debug("\n> 引き算モードです")
+    this.#status = new SubtractStatus(this);
+  }
+
   input(value) {
     this.#value = this.#status.input(value);
   }
@@ -93,8 +98,31 @@ try {
 
 //////////////////////////////////////////////////////////////
 // Q1. 引き算のモードSubtractStatusも作成しましょう。動作確認コードも書いてください。
+class SubtractStatus extends BasicStatus {
+  display() {
+    console.log('引き算をします。数値を入力してください');
+  }
+
+  input(value) {
+    return this.getValue() - value;
+  }
+}
+
+calc.modeDisplay();
+calc.display();
+
+calc.modeSubtract();
+calc.display();
+calc.input(10);
+
+calc.modeDisplay();
+calc.display();
 
 //////////////////////////////////////////////////////////////
 // Q2. もしもStatusクラスを作成せずに、Calclatorが#statusを文字列で持っていた場合
 // このコードとどのような違いが生まれるか考察しましょう。
 // （Calclatorの使い方は変わらずに、実装のみ変更とします）。
+
+// 外部でそれぞれ#statusの文字列を確認し判別，そしてそれに合わせて
+//インスタンスかをするクラスまたはメソッドを作成する必要が出てくる．
+//そうするとコードが複雑になることと，変更があった場合に二ヶ所を変更する必要も出てくる．
