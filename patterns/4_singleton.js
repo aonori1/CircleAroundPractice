@@ -89,7 +89,7 @@ class LibrarySystemFactory {
   }
 
   // 他の言語の場合には private にする。JSではできない。
-  // private constuctor = function(){ }  
+  // private constuctor = function(){ }
 }
 
 
@@ -123,6 +123,27 @@ class LimitedBookshelf extends Bookshelf {
   }
 }
 
+class DebugLibrarySystemFactory {
+  static #instance
+
+  static instance() {
+    if(!DebugLibrarySystemFactory.#instance) {
+      DebugLibrarySystemFactory.#instance = new DebugLibrarySystemFactory();
+    }
+    return DebugLibrarySystemFactory.#instance;
+  }
+
+  createBook() {
+    return new Book();
+  }
+
+  createBookshelf() {
+    return new LimitedBookshelf;
+  }
+}
+
 //////////////////////////////////////////////////////////////
 // Q2. DebugLibrarySystemFactoryの動作サンプルを書いてください。
 // LimitedBookshelfが作成されている事が確認できれば良いです。
+let debugBookshelf = DebugLibrarySystemFactory.instance().createBookshelf();
+console.log(debugBookshelf);
