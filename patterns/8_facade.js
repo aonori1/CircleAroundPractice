@@ -65,7 +65,14 @@ class GreetingFacade {
   greetForDate(date) {
     let clock = new Clock(date);
     let adapter = new ClockMessageAdapter(clock);
-    
+
+    this.#messageCreator.message(adapter);
+  }
+
+  greetForString(time) {
+    let timeByString = new TimeByString(time);
+    let adapter = new TimeMessageAdapter(timeByString);
+
     this.#messageCreator.message(adapter);
   }
 
@@ -98,6 +105,32 @@ class TimeByString {
   }
 }
 
+class TimeMessageAdapter {
+  #timeByString
+  constructor(timeByString) {
+    this.#timeByString = timeByString;
+  }
+
+  isMorning() {
+    let time = this.#timeByString.getString();
+    return time === '朝';
+  }
+
+  isAfterNoon() {
+    let time = this.#timeByString.getString();
+    return time === '昼';
+  }
+
+  isNight() {
+    let time = this.#timeByString.getString();
+    return time === '晩';
+  }
+}
+
+facade.greetForString('晩');
+
 //////////////////////////////////////////////////////////////
 // Q2. Facadeパターンを積極的に検討するべきタイミングはどういう時か考察しましょう。
 
+// A2. 多くのクラスを利用して，階層が深く，
+// それぞれのロジックが単純でも全体としてどんな動きをするのかが把握しづらくなってきた時．
