@@ -43,7 +43,7 @@ function encode(object) {
 
 class EncodeSerializeStratgy {
   serialize(object) {
-    return encodeURIComponent(JSON.stringify(object));
+    return encode(object);
   }
 }
 let serializer3 = new ObjectSerializer(new EncodeSerializeStratgy);
@@ -55,3 +55,6 @@ console.log(serializer3.serialize({ title: "坊ちゃん", pageSize: 520 }));
 // A. Stateはそれぞれの事象が同時に起きない時に使用される．
 // Strategyはそれぞれの事象のロジックが違う物で同時に生じる可能性のある時に使用される．
 
+// Stateは状態の条件としてのif文を減らすことで後の状態の追加などのメンテナンスをしやすくしている．
+// Strategyはアルゴリズムと部品を分けることでif文を減らしている．
+// アルゴリズムを分けることでアルゴリズムの追加，変更，メンテナンスが容易になる．
