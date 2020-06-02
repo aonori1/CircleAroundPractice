@@ -90,7 +90,59 @@ patterns/4_singleton.js
 
 ### 5. State - 状態の変更をうまく処理に反映する - [Strategy]
 - 構造</br>
+一つのクラス内のそれぞれのメソッドでインスタンス化している．</br>
+メソッドを呼び出すことで状態を切り替えたかの様に振舞うため，処理内容が変わる．
+```
+class State(stateの切り替え機能などを持つ) {
+  #status;
+  mode1() {
+    console.debug("\n> mode1です");
+    this.#status = new mode1で行いたい処理のクラス(this);
+  }
+  mode2() {
+    console.debug("\n> mode2です");
+    this.#status = new mode2で行いたい処理のクラス(this);
+  }
+  mode3() {
+    console.debug("\n> mode3です");
+    this.#status = new mode3で行いたい処理のクラス(this);
+  }
+  method1() {行いたい処理}
+  method2() {行いたい処理}
+  method3() {行いたい処理}
+}
 
+// Template Methodに近い
+class 基本構造 {
+  method1() { 共通の基本処理（後のクラスで適宜オーバーライド） }
+  method2() { 共通の基本処理（後のクラスで適宜オーバーライド） }
+  method3() { 共通の基本処理（後のクラスで適宜オーバーライド） }
+}
+
+class mode1で行いたい処理のクラス extends 基本構造 {
+  method2() { オーバーライドし処理を書き換える }
+}
+class mode2で行いたい処理のクラス extends 基本構造 {
+  method2() { オーバーライドし処理を書き換える }
+  method3() { オーバーライドし処理を書き換える }
+}
+class mode3で行いたい処理のクラス extends 基本構造 {
+  method2() { オーバーライドし処理を書き換える }
+  method3() { オーバーライドし処理を書き換える }
+}
+
+let Stateのインスタンス = new State();
+// modeによって行われる処理(methodの内容)が違う
+Stateのインスタンス.mode1();
+Stateのインスタンス.method1();
+Stateのインスタンス.method2();
+Stateのインスタンス.method3();
+Stateのインスタンス.mode2();
+Stateのインスタンス.method2();
+Stateのインスタンス.mode3();
+Stateのインスタンス.method1();
+Stateのインスタンス.method3();
+```
 - 利点</br>
 Stateは状態の条件としてのif文を減らすことで後の状態の追加などのメンテナンスをしやすくしている．
 - 適用に適したシーン</br>
