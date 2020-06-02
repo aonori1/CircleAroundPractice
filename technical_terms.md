@@ -1,8 +1,10 @@
 # 専門用語やデザインパターンの説明集
 ## デザインパターン
 ### 1. Decorator
+___
 - 構造</br>
-Decoratorは元のクラスをコンポジションし別の機能を上から追加する（書き換えではない）．</br>
+Decoratorは元のクラスをコンポジションし別の機能を上から追加する．</br>
+（必ずしも上から追加ではない書き換えることもある）</br>
 デコレートしても元のクラスの使い方と変わらない．
 ```
 class 元のクラス {}
@@ -13,13 +15,14 @@ let デコレータ1インスタンス = new デコレータ1(元のクラスイ
 let デコレータ2インスタンス = new デコレータ2(元のクラスインスタンス);
 ```
 - 利点</br>
-一つの出力ロジックが複数のアルゴリズムで動かすことができる．
+デコレーターのそれぞれのロジックを、適切に組み合わせて使いまわせる．
 - 適用に適したシーン</br>
-アルゴリズムが違うパターンの物を実装する際やログ出しだけの時にも用いる．
+それぞれの機能を小分けにすることで，様々な組み合わせを実現したい時．
 - サンプルコード</br>
 patterns/1_decorator.js
 
 ### 2. TemplateMethod
+___
 - 構造</br>
 主要な構造や出力ロジックは継承元の親クラスで決まっており，</br>
 継承先の小クラスではそれぞれ必要にお応じてメソッドをオーバーライドしロジックを変えていく．
@@ -49,8 +52,9 @@ let 機能2インスタンス = new 機能2;
 patterns/2_template_method.js
 
 ### 3. Factory
+___
 - 構造</br>
-インスタンス化の処理をまとめて，呼び出しの際の引数に合わせて使用するインスタンスを変えている．
+インスタンス化の処理をまとめて，呼び出しの際の状況（今回は引数）に合わせて使用するインスタンスを変えている．
 ```
 class 元の出力 {}
 class デコレータ1 {}
@@ -73,38 +77,46 @@ function createFactory(type) {
 - 利点</br>
 どこでインスタンス化を行っているのかが容易に判断でき，改修（変更，修正，リファクタリングなど）が容易になる．
 - 適用に適したシーン</br>
-デコレーションをすることで複数のクラスが誕生し，インスタンス化を多く行う際．
+デコレータなどにより複数のクラスが誕生し，インスタンス化を多く行う際．</br>
+（デコレータに限らない）
 - サンプルコード</br>
 patterns/3_factory.js
 
 ### 4. Singleton - 世界に一つのオブジェクト - [AbstractFactory]
+___
 - 構造</br>
 
 - 利点</br>
-何かしら帳簿であったり，メンバー表であったりのリストなどのデータを扱う際にただ一つのインスタンスが保証されると，
-</br>他を見なくともそのインスタンスだけで完結できる．
+何かしら帳簿であったり，メンバー表であったりのリストなどのデータを扱う際にただ一つのインスタンスが保証されると，</br>
+他を見なくともそのインスタンスだけで完結できる．</br>
+初期化時にコンフィグの情報を保持していたりする．
 - 適用に適したシーン</br>
 あるクラスのインスタンスが一つしかないことを保証したい場合
 - サンプルコード</br>
 patterns/4_singleton.js
 
 ### 5. State - 状態の変更をうまく処理に反映する - [Strategy]
+___
 - 構造</br>
 一つのクラス内のそれぞれのメソッドでインスタンス化している．</br>
+**インスタンス化するクラスを変えることで処理を変えている．**</br>
 メソッドを呼び出すことで状態を切り替えたかの様に振舞うため，処理内容が変わる．
 ```
-class State(stateの切り替え機能などを持つ) {
+class ChangeState(stateの切り替え機能などを持つ) {
   #status;
   mode1() {
     console.debug("\n> mode1です");
+     //stateにあたる
     this.#status = new mode1で行いたい処理のクラス(this);
   }
   mode2() {
     console.debug("\n> mode2です");
+     //stateにあたる
     this.#status = new mode2で行いたい処理のクラス(this);
   }
   mode3() {
     console.debug("\n> mode3です");
+     //stateにあたる
     this.#status = new mode3で行いたい処理のクラス(this);
   }
   method1() {行いたい処理}
@@ -131,31 +143,60 @@ class mode3で行いたい処理のクラス extends 基本構造 {
   method3() { オーバーライドし処理を書き換える }
 }
 
-let Stateのインスタンス = new State();
+let ChangeStateのインスタンス = new ChangeState();
 // modeによって行われる処理(methodの内容)が違う
-Stateのインスタンス.mode1();
-Stateのインスタンス.method1();
-Stateのインスタンス.method2();
-Stateのインスタンス.method3();
-Stateのインスタンス.mode2();
-Stateのインスタンス.method2();
-Stateのインスタンス.mode3();
-Stateのインスタンス.method1();
-Stateのインスタンス.method3();
+ChangeStateのインスタンス.mode1();
+ChangeStateのインスタンス.method1();
+ChangeStateのインスタンス.method2();
+ChangeStateのインスタンス.method3();
+ChangeStateのインスタンス.mode2();
+ChangeStateのインスタンス.method2();
+ChangeStateのインスタンス.mode3();
+ChangeStateのインスタンス.method1();
+ChangeStateのインスタンス.method3();
 ```
 - 利点</br>
-Stateは状態の条件としてのif文を減らすことで後の状態の追加などのメンテナンスをしやすくしている．
+Stateは状態変更の条件としてのif文を減らすことで，後に状態の追加などのメンテナンスをしやすくしている．
 - 適用に適したシーン</br>
 Stateはそれぞれの事象が同時に起きない時に使用される．
 - サンプルコード</br>
 patterns/5_state.js
 
 ### 6. Storategy - ロジックの差し替え - [State]
+___
 - 構造</br>
+今回はコンストラクタをstrategyに指定し，二つの別のロジックを組み込んだ．
+Decoretorは上から被さるものが変わり，中心は一緒．Storategyは被さるものは一緒で，中身が変わる．
+```
+// シリアライズ=直列化と言います．
+// バイナリ（今は文字列と考えても良いです）で保存可能な形に加工するような意味合いです．
+class Serializer {
+  #strategy
+  constructor(strategy) {
+    // 与えられたstrategyを動作の詳細とします
+    this.#strategy = strategy;
+  }
 
+  serialize(object) {
+    return this.#strategy.serialize(object);
+  }
+}
+
+class Strategy1 {
+  serialize(object) {}
+}
+class Strategy2 {
+  serialize(object) {}
+}
+let serializer1 = new Serializer(new Strategy1);
+serializer1.serialize();
+let serializer2 = new Serializer(new Strategy2);
+serializer2.serialize();
+```
 - 利点</br>
 Strategyはアルゴリズムと部品を分けることでif文を減らしている．</br>
-アルゴリズムを分けることでアルゴリズムの追加，変更，メンテナンスが容易になる．
+アルゴリズムを分けることでアルゴリズムの追加，変更，メンテナンスが容易になる．</br>
+**ロジックの差し替えを容易になる．**
 - 適用に適したシーン</br>
 それぞれの事象のロジックが違う物で同時に生じる可能性のある時に使用される．</br>
 Strategyは出力の変更を容易にするために，ロジックを外に出しメンテナンスを容易にした．
@@ -163,21 +204,79 @@ Strategyは出力の変更を容易にするために，ロジックを外に出
 patterns/6_strategy.js
 
 ### 7. Adapter - 相手にインターフェースを合わせる - [Decrator, Strategy]
+___
 - 構造</br>
 Adapterは間に互換性のあるクラスを挟むことで，</br>
-当てはめたいクラス（Clock,TimeByString）ロジックを元のクラス（MessageCreator）に利用できる形に変換していた．</br>
-出力は一緒だが入力されるデータが違うため， 別で出力にデータが合う様にロジックを組み直している．
-- 利点</br>
+当てはめたいクラス（Clock,TimeByString）ロジックを元のクラス（MessageCreator）に利用できる形に変換する．
+```
+// 今回は固定メソッドからbooleanを取る形
+class 変えてはいけないクラス1 {
+  method(adapter) {
+    if(adapter.method1) {}
+    else if(adapter.method2) {}
+    else {}
+  }
+}
+// Dateを返す形
+class 変えてはいけないクラス2 {
+  method() {
+    return Date;
+  }
+}
+class Adapter {
+  #date
+  constructor(date) {
+    this.#date = date;
+  }
 
+  method1() {
+    // this.#dateを使って何か評価をする
+    return boolean
+  }
+  method2() {
+    // this.#dateを使って何か評価をする
+    return boolean
+  }
+}
+
+let 変えてはいけないクラス1のインスタンス = new 変えてはいけないクラス1;
+let 変えてはいけないクラス2のインスタンス = new 変えてはいけないクラス2;
+let adapter = new Adapter(変えてはいけないクラス2のインスタンス);
+変えてはいけないクラス1のインスタンス.method(adapter);
+```
+- 利点</br>
+二つのクラスが変更不可の時に間に挟むことでつじつま合わせができる．
 - 適用に適したシーン</br>
-二つのクラスが変更不可の時に仕方なく実装する物．
-基本アルゴリズムは同じだがデータなどタネとなる元が違う時．
+出力側のデータ構造に合わせる為に使用．
+基本アルゴリズムは同じだがデータなど元が違う時．
 - サンプルコード</br>
 patterns/7_adapter.js
 
 ### 8. Facade - 細かい事をまるっと隠す- [Decorator]
+___
 - 構造</br>
+機能を一ヶ所でまとめる．そこだけの使い方がわかれば中身は知らなくて良い．
+```
+class Facade {
+  #出力先クラス
+  constructor() {
+    this.#出力先クラス = new 出力先クラス;
+  }
 
+  method1(引数) {
+    let 何か1のインスタンス = new 何か1(引数);
+    let 何か2のインスタンス = new 何か2(何か1のインスタンス);
+    this.#出力先クラス.何かmethod1(何か2のインスタンス);
+  }
+  method2() {
+    let 何か3のインスタンス = new 何か3;
+    this.#出力先クラス.何かmethod3(何か3のインスタンス);
+  }
+}
+let facade = new Facade();
+facade.method1(引数);
+facade.method2();
+```
 - 利点</br>
 詳しいアルゴリズムがわからなくても，一番外のモジュールの使用方法がわかればよくなる．
 - 適用に適したシーン</br>
@@ -187,8 +286,11 @@ patterns/7_adapter.js
 patterns/8_facade.js
 
 ### 9. Composite
+___
 - 構造</br>
 
+```
+```
 - 利点</br>
 
 - 適用に適したシーン</br>
