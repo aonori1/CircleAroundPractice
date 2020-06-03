@@ -86,6 +86,24 @@ patterns/3_factory.js
 ___
 - 構造</br>
 
+```
+class 何かクラス {
+  static #instance
+
+  static instance() {
+    if(!何かクラス.#instance) {
+      // ここではやってないが，ここでインスタンス化される実体を変えたりもする．
+      何かクラス.#instance = new 何かクラス(); // 唯一のインスタンス
+    }
+    return 何かクラス.#instance;
+  }
+  method1() {}
+  method2() {}
+  // 他の言語の場合には private にする．JSではできない．
+  // private constuctor = function(){ }
+}
+何かクラス.#instance.method1;
+```
 - 利点</br>
 何かしら帳簿であったり，メンバー表であったりのリストなどのデータを扱う際にただ一つのインスタンスが保証されると，</br>
 他を見なくともそのインスタンスだけで完結できる．</br>
