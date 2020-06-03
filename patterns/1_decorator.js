@@ -20,7 +20,7 @@ class DoubleNumberHolder {
 }
 
 function showAnswer(numberHolder) {
-  console.log(`今の値は ${numberHolder.getNumber()} です`);  
+  console.log(`今の値は ${numberHolder.getNumber()} です`);
 }
 
 let numberHolder = new NumberHolder();
@@ -33,23 +33,38 @@ showAnswer(doubleNumberHolder); // デコレートしても使い方は元のも
 //////////////////////////////////////////////////////////////
 // Q1. 2で割るデコレーター を書いてみましょう。
 class Divide2NumberHodler {
+  constructor(numberHolder) {
+    this.numberHolder = numberHolder;
+  }
 
+  getNumber() {
+    return this.numberHolder.getNumber() / 2;
+  }
 }
 
 // Q1 の確認コードをここから
 // showAnswer したら 2 が戻ってくるはずです。
-
+let divide2NumberHodler = new Divide2NumberHodler(numberHolder);
+showAnswer(divide2NumberHodler);
 
 //////////////////////////////////////////////////////////////
 // Q2. コンストラクタで与えた数を加算できるデコレーター を書いてみましょう。
 class AddNumberHolder {
+  constructor(numberHolder, number) {
+    this.numberHolder = numberHolder;
+    this.number = number;
+  }
 
+  getNumber() {
+    return this.numberHolder.getNumber() + this.number;
+  }
 }
 
 // Q2 の確認コードをここから
 // コンストラクタで元のnumberHolderと一緒に3を渡してください。
-// showAnswer したら 5 が戻ってくるはずです。
-
+// showAnswer したら 7 が戻ってくるはずです。
+let addNumberHolder = new AddNumberHolder(numberHolder, 3);
+showAnswer(addNumberHolder);
 
 
 
