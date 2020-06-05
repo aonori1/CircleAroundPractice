@@ -1,0 +1,17 @@
+[
+  {
+    "tags": ["ブランチ", "取得"],
+    "comand": ["git branch --contains=HEAD", "git branch --contains"],
+    "description": "1の branch コマンドの contains オプションは、指定したコミットを含むブランチのみを表示します。なので、2の様に指定しないとデフォルトで HEAD が指定されます。"
+  },
+  {
+    "tags": ["カレント", "ブランチ", "ローカル", "確認", "今の"],
+    "comand": ["git branch"],
+    "description": "ローカルのカレントブランチを表示します．"
+  },
+  {
+    "tags": ["新しく", "ブランチ", "作成", "移動"],
+    "comand": ["git checkout -b (branch_name)"],
+    "description": "新しくブランチを作成しそのブランチに移動します．"
+  }
+]
